@@ -6,7 +6,7 @@ const PORT = 3000;
 
 app.use(express.json());
 
-app.use('/api/sabre', sabreRoute);
+app.use('/api', sabreRoute);
 
 
 app.listen(PORT, () => {
