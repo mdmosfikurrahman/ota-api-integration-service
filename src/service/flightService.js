@@ -1,22 +1,24 @@
 const { getSabreFlightOffers } = require('../service/sabreService');
+const FlightRequest = require('../dto/request/flightRequest');
 
 const flightResponse = async (req, res) => {
-    const { source, type, DepartureDateTime, OriginLocationCode, DestinationLocationCode, ReturnDateTime } = req.body;
+    try {
+        const requestData = new FlightRequest(req.body);
 
-    if (source === 'sabre') {
-        if (!type || !DepartureDateTime || !OriginLocationCode || !DestinationLocationCode) {
-            return res.status(400).json({ error: "Missing required fields" });
+        if (requestData.source !== 'sabre') {
+            return res.status(400).json({ error: "Invalid flight source. Define Source in Request Body!" });
         }
 
-        try {
-            const flightData = await getSabreFlightOffers(type, DepartureDateTime, OriginLocationCode, DestinationLocationCode, ReturnDateTime);
-            res.json(flightData);
-        } catch (error) {
-            console.error("Error fetching flight offers:", error);
-            res.status(500).json({ error: error.message });
-        }
-    } else {
-        return res.status(400).json({ error: "Invalid flight source. Define Source in Request Body!" });
+        const flightData = await getSabreFlightOffers(
+            requestData.type,
+            requestData.flightDetails,
+            requestData.ReturnDateTime
+        );
+
+        res.json(flightData);
+    } catch (error) {
+        console.error("Error processing request:", error);
+        res.status(400).json({ error: error.message });
     }
 };
 

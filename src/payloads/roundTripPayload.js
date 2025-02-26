@@ -1,4 +1,4 @@
-const getRoundTripPayload = (DepartureDateTime, OriginLocationCode, DestinationLocationCode, ReturnDateTime) => {
+const getRoundTripPayload = (flightDetails, ReturnDateTime) => {
     return {
         "OTA_AirLowFareSearchRQ": {
             "Version": "5",
@@ -20,14 +20,14 @@ const getRoundTripPayload = (DepartureDateTime, OriginLocationCode, DestinationL
             "OriginDestinationInformation": [
                 {
                     "RPH": "1",
-                    "DepartureDateTime": DepartureDateTime,
+                    "DepartureDateTime": flightDetails.DepartureDateTime,
                     "OriginLocation": {
                         "LocationType": "A",
-                        "LocationCode": OriginLocationCode
+                        "LocationCode": flightDetails.OriginLocationCode
                     },
                     "DestinationLocation": {
                         "LocationType": "A",
-                        "LocationCode": DestinationLocationCode
+                        "LocationCode": flightDetails.DestinationLocationCode
                     },
                     "TPA_Extensions": {
                         "CabinPref": {
@@ -41,11 +41,11 @@ const getRoundTripPayload = (DepartureDateTime, OriginLocationCode, DestinationL
                     "DepartureDateTime": ReturnDateTime,
                     "OriginLocation": {
                         "LocationType": "A",
-                        "LocationCode": DestinationLocationCode
+                        "LocationCode": flightDetails.DestinationLocationCode
                     },
                     "DestinationLocation": {
                         "LocationType": "A",
-                        "LocationCode": OriginLocationCode
+                        "LocationCode": flightDetails.OriginLocationCode
                     },
                     "TPA_Extensions": {
                         "CabinPref": {

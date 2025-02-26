@@ -4,7 +4,7 @@ const getOneWayPayload = require('../payloads/oneWayPayload');
 const getRoundTripPayload = require('../payloads/roundTripPayload');
 const { sabreApiBaseUrl, sabreApiHeaders } = require('../config/config');
 
-const getSabreFlightOffers = async (type, DepartureDateTime, OriginLocationCode, DestinationLocationCode, ReturnDateTime) => {
+const getSabreFlightOffers = async (type, flightDetails, ReturnDateTime) => {
     const tokenResponse = await getSabreToken();
     const access_token = tokenResponse.access_token;
 
@@ -19,12 +19,12 @@ const getSabreFlightOffers = async (type, DepartureDateTime, OriginLocationCode,
 
     let payload;
     if (type === 'one-way') {
-        payload = getOneWayPayload(DepartureDateTime, OriginLocationCode, DestinationLocationCode);
+        payload = getOneWayPayload(flightDetails);
     } else if (type === 'round-trip') {
         if (!ReturnDateTime) {
             throw new Error("ReturnDateTime is required for round-trip");
         }
-        payload = getRoundTripPayload(DepartureDateTime, OriginLocationCode, DestinationLocationCode, ReturnDateTime);
+        payload = getRoundTripPayload(flightDetails, ReturnDateTime);
     } else {
         throw new Error("Invalid flight type. Must be 'one-way' or 'round-trip'");
     }

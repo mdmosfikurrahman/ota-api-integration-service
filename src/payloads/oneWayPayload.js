@@ -1,4 +1,4 @@
-const getOneWayPayload = (DepartureDateTime, OriginLocationCode, DestinationLocationCode) => {
+const getOneWayPayload = (flightDetails) => {
     return {
         "OTA_AirLowFareSearchRQ": {
             "Version": "5",
@@ -20,14 +20,14 @@ const getOneWayPayload = (DepartureDateTime, OriginLocationCode, DestinationLoca
             "OriginDestinationInformation": [
                 {
                     "RPH": "1",
-                    "DepartureDateTime": DepartureDateTime,
+                    "DepartureDateTime": flightDetails.DepartureDateTime,
                     "OriginLocation": {
                         "LocationType": "A",
-                        "LocationCode": OriginLocationCode
+                        "LocationCode": flightDetails.OriginLocationCode
                     },
                     "DestinationLocation": {
                         "LocationType": "A",
-                        "LocationCode": DestinationLocationCode
+                        "LocationCode": flightDetails.DestinationLocationCode
                     },
                     "TPA_Extensions": {
                         "CabinPref": {
