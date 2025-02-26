@@ -2,6 +2,7 @@ const axios = require('axios');
 const { getSabreToken } = require('../auth/tokenProvider');
 const getOneWayPayload = require('../payloads/oneWayPayload');
 const getRoundTripPayload = require('../payloads/roundTripPayload');
+const getMultiCityPayload = require('../payloads/multiCityPayload');
 const { sabreApiBaseUrl, sabreApiHeaders } = require('../config/config');
 
 const getSabreFlightOffers = async (type, flightDetails, ReturnDateTime) => {
@@ -25,8 +26,10 @@ const getSabreFlightOffers = async (type, flightDetails, ReturnDateTime) => {
             throw new Error("ReturnDateTime is required for round-trip");
         }
         payload = getRoundTripPayload(flightDetails, ReturnDateTime);
+    } else if (type === 'multi-city') {
+        payload = getMultiCityPayload(flightDetails);
     } else {
-        throw new Error("Invalid flight type. Must be 'one-way' or 'round-trip'");
+        throw new Error("Invalid flight type. Must be 'one-way', 'round-trip', or 'multi-city'");
     }
 
     try {
