@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { getSabreToken } = require('../auth/tokenProvider');
+const { getSabreToken } = require('../utils/tokenProvider');
 const getOneWayPayload = require('../payloads/oneWayPayload');
 const getRoundTripPayload = require('../payloads/roundTripPayload');
 const getMultiCityPayload = require('../payloads/multiCityPayload');
